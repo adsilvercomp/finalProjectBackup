@@ -8,13 +8,10 @@ const foodFunction = {
         //this route makes a call to the api based on a user's grocery list.
         const ingredients = req.query.food;
        
-        console.log(ingredients);
-        console.log("is this working?? " + process.env.EDAMAM_ID)
-
 
         axios.get("https://api.edamam.com/search?q=" + ingredients + "&app_id=" + process.env.EDAMAM_ID + "&app_key=" + process.env.EDAMAM_KEY)
             .then(function (response) {
-                // console.log(response.data.hits);
+                
                 res.json(response.data.hits);
             }).catch(function (err) {
                 console.log(err);
@@ -23,9 +20,8 @@ const foodFunction = {
 
 
     create: function (req, res) {
-        //this route saves the groceries
-        console.log("the create route is being hit");
-        console.log(JSON.stringify(req.body));
+        //this route saves the groceries to the db
+        
         db.grocerylist
             .create(req.body)
             .then(dbModel => res.json(dbModel))
@@ -35,7 +31,7 @@ const foodFunction = {
 
     read: function (req, res) {
       //this route sends database grocery items to front end
-      console.log("the read route has been hit");
+      
         db.grocerylist
             .find(req.query)
             .then(dbModel => res.json (dbModel))
@@ -43,7 +39,7 @@ const foodFunction = {
     },
 
     update: function (req, res){
-        console.log("the update route has been hit");
+        //this route updates whether a grocery item has been purchased
         db.grocerylist
         .findOneAndUpdate({ _id: req.params.id }, req.body)
         .then(dbModel => res.json(dbModel))
@@ -51,6 +47,7 @@ const foodFunction = {
     },
 
     use: function(req, res){
+        ////this route will update whether a food item has been selected to be used in recipe
         console.log("the use route has been hit");
         db.grocerylist
         .findOneAndUpdate({ _id: req.params.id }, req.body)

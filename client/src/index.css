@@ -16,7 +16,6 @@ h4{
     border:solid rgb(255, 225, 0) 3px;
 }
 
-
 .subContainer {
     background-color:rgb(255, 255, 228);
     color:rgb(113, 216, 113);
@@ -28,15 +27,27 @@ h4{
     font-family: 'Pacifico', cursive;
 }
 
+.listButton{
+    margin-top:5px;
+    margin-right: 5px;
+    font-size: 14px;
+}
+
 .subtitle{
     font-family: 'Pacifico', cursive;
 
 }
 
+.foodInput{
+    margin-right:5px;
+    margin-bottom:10px;
+}
+
 .logoImage {
-    height: 75px;
-    width:90px;
-    padding-bottom:0px;
+    margin-top:30px;
+    margin-bottom:0px;
+    height: 150px;
+    width:300px;
 }
 
 #responseContainer{
