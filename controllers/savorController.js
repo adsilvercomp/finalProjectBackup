@@ -7,19 +7,18 @@ const foodFunction = {
     getRecipes: function (req, res) {
         //this route makes a call to the api based on a user's grocery list.
         const ingredients = req.query.food;
-        const id = "8dc2b8c8"
-        const key = "b468939121e6d4c0b545c707a78606ff"
+       
         console.log(ingredients);
+        console.log("is this working?? " + process.env.EDAMAM_ID)
 
 
-        axios.get("https://api.edamam.com/search?q=" + ingredients + "&app_id=" + id + "&app_key=" + key)
+        axios.get("https://api.edamam.com/search?q=" + ingredients + "&app_id=" + process.env.EDAMAM_ID + "&app_key=" + process.env.EDAMAM_KEY)
             .then(function (response) {
                 // console.log(response.data.hits);
                 res.json(response.data.hits);
             }).catch(function (err) {
                 console.log(err);
             })
-
     },
 
 

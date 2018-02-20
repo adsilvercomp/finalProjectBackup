@@ -122,7 +122,7 @@ class Main extends React.Component {
         console.log(groceries);
         let array = []
 
-
+        //map over the grocery list, if the item has been purchased and the user would like to get recipes using the item, push it into array
         array = this.state.groceries.map(item => {
             if (item.use === true && item.purchased === true) {
                 return item.food;
@@ -131,25 +131,29 @@ class Main extends React.Component {
             }
 
         })
+        //call the getRecipes2 function and pass the gorceries items that the user would like to use in their recipe.
         this.getRecipes2(array);
 
     }
 
     getRecipes2 = (array) => {
         const context = this;
-
+        //set the state of apiParams to the array of groceries that the user would like to use in their recipe
         this.setState({ apiParams: array })
         console.log("api parms " + this.state.apiParams);
-        if (context.state.apiParams.length > 0) {
-            this.setState({ zeroRecipes: false })
-            context.setState({ loading: true })
+        //if the length of the paramters is greater than zero set the state of loading to true
+        if (this.state.apiParams.length > 0) {
+            // this.setState({ zeroRecipes: false })
+            this.setState({ loading: true })
             API.getRecipes({
                 food: this.state.apiParams
             })
                 .then(function (data) {
+                    //when that api returns data, set the state of loading to false
                     context.setState({ loading: false })
-                    if (data.data.length > 0 ) {
-                        
+
+                    //if there is api data, loop through it and push it into an array called apiData, then set the state of recipex to the apiData
+                    if (data.data.length > 0) {
                         console.log("this is the api data " + data);
                         let apiData = []
                         for (let i = 0; i < data.data.length; i++) {
@@ -157,32 +161,30 @@ class Main extends React.Component {
                         }
                         console.log(apiData);
                         context.setState({ recipex: apiData })
-                        
+
                     }
-                    else if(context.state.use===false){
-                        context.setState({ recipex: [] })
-                    }
-                    else if(context.state.use===true) {
+
+
+                    //if the user marked get recipe on a food item and there is no response data, call tne noRecipes function.
+                    else if (data.data.length === 0 && context.state.use === true) {
                         console.log("No data");
 
                         context.noRecipes();
                     }
-
-
                 })
                 .catch(function (err) {
                     console.log(err);
                 })
         } else {
-            context.setState({ recipex: [] })
+            this.setState({ recipex: [] })
         }
 
     }
 
     noRecipes = () => {
         this.setState({ zeroRecipes: true })
-         console.log("burrrrp: " + this.state.zeroRecipes);
-         console.log("use: " + this.state.use);
+        console.log("burrrrp: " + this.state.zeroRecipes);
+        console.log("use: " + this.state.use);
         // this.getRecipes()
     }
 
@@ -241,7 +243,7 @@ class Main extends React.Component {
                                             <strong>
                                                 <strike> {"Item: " + item.food}</strike>
                                                 <h4> ✓</h4>
-                                                <br/>
+                                                <br />
                                             </strong>
 
                                             <button className="button"
@@ -279,8 +281,8 @@ class Main extends React.Component {
                         </GroceryList>
                     </div>
 
-
                     <div className="recipeSection col-lg-6 col-md-6 col-sm-6">
+
                         <h4 className="sectionTitle title">Recipes</h4>
                         <br />
                         <Recipes>
@@ -292,7 +294,6 @@ class Main extends React.Component {
                                     </div>
                                 </IndividualRecipes>
                                 :
-
                                 this.state.zeroRecipes === true ?
                                     <IndividualRecipes >
                                         <div>
@@ -300,7 +301,6 @@ class Main extends React.Component {
                                         </div>
                                     </IndividualRecipes>
                                     :
-
                                     this.state.recipex.map(recipe => {
                                         return (
                                             <IndividualRecipes>
@@ -317,15 +317,10 @@ class Main extends React.Component {
                                                     {recipe.ingredientLines}
                                                 </div>
 
-
                                             </IndividualRecipes>
-
                                         )
-
                                     })
-
                             }
-
 
                         </Recipes>
                     </div>
