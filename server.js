@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const savorController = require("./controllers/savorController");
 const app = express();
 const PORT = process.env.PORT || 3001;
+//this allows you to use a .env file to hide your api keys
 require('dotenv').config();
 
 // Configure body parser for axios requests
